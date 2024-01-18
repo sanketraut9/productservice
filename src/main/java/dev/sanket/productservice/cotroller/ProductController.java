@@ -1,6 +1,7 @@
 package dev.sanket.productservice.cotroller;
 
 import dev.sanket.productservice.dtos.GenericProductDto;
+import dev.sanket.productservice.exceptions.NotFoundException;
 import dev.sanket.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,12 +27,23 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public GenericProductDto getProductBId(@PathVariable("id") Long id){
+    public GenericProductDto getProductBId(@PathVariable("id") Long id) throws NotFoundException {
         return productService.getProductById(id);
     }
 
     @PostMapping()
     public GenericProductDto createProduct(GenericProductDto genericProductDto){
         return productService.createProduct(genericProductDto);
+    }
+
+    @DeleteMapping("{id}")
+    public GenericProductDto deleteProduct(@PathVariable("id") Long id){
+        return productService.deleteProduct(id);
+    }
+
+
+    @PutMapping("{id}")
+    public GenericProductDto updateProductById(@PathVariable("id") Long id,GenericProductDto updatedProduct){
+        return productService.updateProductById(id,updatedProduct);
     }
 }
