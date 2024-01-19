@@ -5,6 +5,8 @@ import dev.sanket.productservice.exceptions.NotFoundException;
 import dev.sanket.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,8 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public GenericProductDto deleteProduct(@PathVariable("id") Long id){
-        return productService.deleteProduct(id);
+    public ResponseEntity<GenericProductDto> deleteProduct(@PathVariable("id") Long id){
+        return new ResponseEntity<>(productService.deleteProduct(id),HttpStatus.resolve(200));
     }
 
 
@@ -46,4 +48,13 @@ public class ProductController {
     public GenericProductDto updateProductById(@PathVariable("id") Long id,GenericProductDto updatedProduct){
         return productService.updateProductById(id,updatedProduct);
     }
+
+
+    //This is specific to this controller
+//    @ExceptionHandler(NotFoundException.class)
+//    public ResponseEntity<ExceptionDto> handleNotFoundException(NotFoundException notFoundException) {
+//        return new ResponseEntity<>(new ExceptionDto(HttpStatus.NOT_FOUND, notFoundException.getMessage()),
+//                HttpStatus.NOT_FOUND);
+//    }
+
 }
